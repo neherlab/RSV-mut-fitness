@@ -69,6 +69,8 @@ class Rates:
                 - 0.5
             )
 
+        rates["predicted_count"] = rates["rate"]
+
         rates.drop(columns=["nt_site"], inplace=True)
 
         # Rescale counts by total number of mutations and number of synonymous sites
@@ -186,6 +188,15 @@ def add_predicted_count(train_df, count_df, clades):
     rate = Rates()
 
     rate.populate_rates(train_df)
+    train_df["predicted_count"] = rate.predicted_counts_by_clade(train_df)
+    tau = train_df.groupby("mut_type").apply(
+        lambda x: np.mean(
+            (np.log(x.actual_count + 0.5) - np.log(x.predicted_count + 0.5)) ** 2
+        ),
+        include_groups=False,
+    )
+    rate.rates["cond_count"] = rate.genome_composition(train_df)
+    rate.residual_variance(train_df, tau)
 
     for c in clades:
         count_clade = count_df.loc[count_df.clade == c, :].copy()
@@ -193,17 +204,7 @@ def add_predicted_count(train_df, count_df, clades):
 
         rate.predicted_counts(count_clade_syn)
         pred_count_clade = rate.predicted_counts_by_clade(count_clade)
-        count_clade_syn["predicted_count"] = rate.predicted_counts_by_clade(
-            count_clade_syn
-        )
 
-        tau = count_clade_syn.groupby("mut_type").apply(
-            lambda x: np.mean(
-                (np.log(x.actual_count + 0.5) - np.log(x.predicted_count + 0.5)) ** 2
-            )
-        )
-
-        rate.residual_variance(count_clade_syn, tau)
         residual_clade = rate.residual_by_clade(count_clade)
 
         count_df.loc[count_clade.index, "predicted_count"] = pred_count_clade
