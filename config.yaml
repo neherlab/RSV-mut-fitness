@@ -1,0 +1,5 @@
+# Configuration file for pipeline
+
+# Links to dataframes from Jesse's repository: jbloomlab/SARS2-mut-fitness
+url_founder: https://raw.githubusercontent.com/jbloomlab/SARS2-mut-fitness/refs/heads/main/results/clade_founder_nts/clade_founder_nts.csv
+url_counts: https://media.githubusercontent.com/media/jbloomlab/SARS2-mut-fitness/refs/heads/main/results/expected_vs_actual_mut_counts/expected_vs_actual_mut_counts.csv
