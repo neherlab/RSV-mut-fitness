@@ -6,8 +6,7 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        'results/master_tables/master_table_pre_omicron.csv',
-        'results/master_tables/master_table_omicron.csv',
+        'results/pred_mut_counts_by_clade.csv',
 
 rule annotate_counts:
     params:
@@ -16,7 +15,7 @@ rule annotate_counts:
     input:
         rna_struct="data/lan_2022/41467_2022_28603_MOESM11_ESM.txt"
     output:
-        csv="results/mut_counts_by_clade.csv",
+        csv=temp("results/mut_counts_by_clade.csv"),
     notebook:
         "notebook/counts_by_clade.py.ipynb"
 
@@ -38,3 +37,13 @@ rule master_table:
         omicron_ms='results/master_tables/master_table_omicron.csv',
     notebook:
         "notebook/master_tables.py.ipynb"
+
+rule predicted_counts:
+    input:
+        counts_df=rules.annotate_counts.output.csv,
+        pre_omicron=rules.curated_counts.output.pre_omicron,
+        omicron=rules.curated_counts.output.omicron,
+    output:
+        pred_count_csv="results/pred_mut_counts_by_clade.csv",
+    notebook:
+        "notebook/predicted_counts_by_clade.py.ipynb"
