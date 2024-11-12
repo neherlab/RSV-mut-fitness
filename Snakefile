@@ -6,7 +6,7 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        'results/pred_mut_counts_by_clade.csv',
+        expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys()),
 
 rule annotate_counts:
     params:
@@ -47,3 +47,34 @@ rule predicted_counts:
         pred_count_csv="results/pred_mut_counts_by_clade.csv",
     notebook:
         "notebook/predicted_counts_by_clade.py.ipynb"
+
+rule counts_cluster:
+    params:
+        cluster=lambda wc: wc.cluster,
+        clades=lambda wc: config['clade_cluster'][wc.cluster],
+    input:
+        counts_df=rules.predicted_counts.output.pred_count_csv,
+    output:
+        cluster_counts=temp('results/ntmut_fitness/{cluster}_ntmut_counts.csv'),
+    notebook:
+        "notebook/ntmut_counts_cluster.py.ipynb"
+
+rule ntmut_fitness:
+    input:
+        cluster_counts='results/ntmut_fitness/{cluster}_ntmut_counts.csv' 
+    output:
+        ntfit_csv='results/ntmut_fitness/{cluster}_ntmut_fitness.csv',
+    notebook:
+        'notebook/ntmut_fitness.py.ipynb'
+
+rule aamut_fitness:
+    params:
+        orf_to_nsps=config['orf1ab_to_nsps'],
+        gene_ov=config['gene_overlaps'],
+        fit_pseudo=config['fitness_pseudocount'],
+    input:
+        ntfit_csv='results/ntmut_fitness/{cluster}_ntmut_fitness.csv',
+    output:
+        aafit_csv='results/aamut_fitness/{cluster}_aamut_fitness.csv',
+    notebook:
+        'notebook/aamut_fitness.py.ipynb'
