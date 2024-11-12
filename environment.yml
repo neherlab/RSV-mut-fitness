@@ -1,0 +1,17 @@
+name: SARS2-refined-fitness
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - numpy=2.1.3
+  - pandas=2.2.3
+  - scipy=1.14.1
+  - matplotlib=3.9.2
+  - ipykernel=6.29.5
+  - python=3.10
+  - snakemake=7.32.4
+  - ca-certificates
+  - certifi
+  - openssl=3.3.2
+  - jupyter=1.1.1
