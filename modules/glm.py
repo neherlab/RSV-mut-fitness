@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-# from sklearn.metrics import mean_squared_error
 
 letters = ["A", "C", "G", "T"]
 mut_types = ["AC", "AG", "AT", "CA", "CG", "CT", "GA", "GC", "GT", "TA", "TC", "TG"]
