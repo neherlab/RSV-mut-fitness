@@ -1,5 +1,9 @@
 __pycache__
 .ipynb_checkpoints
+/cluster
+/log
+/results/expected_vs_actual_counts.csv
+/results/clade_founder.csv
 /results/mut_counts_by_clade.csv
 /results/pred_mut_counts_by_clade.csv
 .snakemake
