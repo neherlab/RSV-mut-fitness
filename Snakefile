@@ -8,12 +8,30 @@ rule all:
     input:
         expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys()),
 
-rule annotate_counts:
+rule get_counts_table:
+    params:
+        url_counts=config["url_counts"],
+    output:
+        csv=temp('results/expected_vs_actual_counts.csv')
+    shell:
+        """
+            curl -k {params.url_counts} > {output.csv}
+        """
+rule get_clade_founder:
     params:
         url_founder=config["url_founder"],
-        url_counts=config["url_counts"],
+    output:
+        csv=temp('results/clade_founder.csv')
+    shell:
+        """
+            curl {params.url_founder} > {output.csv}
+        """
+
+rule annotate_counts:
     input:
-        rna_struct="data/lan_2022/41467_2022_28603_MOESM11_ESM.txt"
+        rna_struct="data/lan_2022/41467_2022_28603_MOESM11_ESM.txt",
+        counts=rules.get_counts_table.output.csv,
+        clade_founder=rules.get_clade_founder.output.csv,
     output:
         csv=temp("results/mut_counts_by_clade.csv"),
     notebook:
@@ -44,7 +62,7 @@ rule predicted_counts:
         pre_omicron=rules.curated_counts.output.pre_omicron,
         omicron=rules.curated_counts.output.omicron,
     output:
-        pred_count_csv="results/pred_mut_counts_by_clade.csv",
+        pred_count_csv=temp("results/pred_mut_counts_by_clade.csv"),
     notebook:
         "notebook/predicted_counts_by_clade.py.ipynb"
 
@@ -78,3 +96,7 @@ rule aamut_fitness:
         aafit_csv='results/aamut_fitness/{cluster}_aamut_fitness.csv',
     notebook:
         'notebook/aamut_fitness.py.ipynb'
+
+localrules:
+    get_counts_table,
+    get_clade_founder,
