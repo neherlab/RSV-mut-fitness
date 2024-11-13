@@ -112,6 +112,7 @@ rule aamut_fitness:
     params:
         orf_to_nsps=config['orf1ab_to_nsps'],
         gene_ov=config['gene_overlaps'],
+        genes=config['genes'],
         fit_pseudo=config['fitness_pseudocount'],
     input:
         ntfit_csv='results/ntmut_fitness/{cluster}_ntmut_fitness.csv',
