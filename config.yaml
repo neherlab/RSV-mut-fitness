@@ -14,7 +14,7 @@ clade_cluster:
  '21J': ['21J'],
  '21K': ['21K'],
  'BA.2': ['21L', '22C'],
- 'BA.4/5': ['22A', '22B'],
+ 'BA.4-5': ['22A', '22B'],
  'BA.2.75': ['22D', '23C'],
  'XBB': ['22F', '23A', '23B', '23D', '23E', '23F', '23H'],
  'late': ['23I']
@@ -51,3 +51,8 @@ gene_overlaps:
 
 # Pseudocount for calculating amino-acid fitnesses
 fitness_pseudocount: 0.5
+
+# Genes order on the viral genome
+genes: ['ORF1ab', 'nsp1', 'nsp2', 'nsp3', 'nsp4', 'nsp5 (Mpro)', 'nsp6', 'nsp7', 'nsp8', 'nsp9',
+  'nsp10', 'nsp12 (RdRp)', 'nsp13', 'nsp14', 'nsp15', 'nsp16', 'S', 'ORF3a', 'E', 'M', 'ORF6',
+  'ORF7a', 'ORF7b', 'ORF8', 'ORF9b', 'N', 'ORF10']
