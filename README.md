@@ -46,6 +46,8 @@ The pipeline runs downstream from two files fetched directly from the [jbloomlab
 
 The related links are defined in the [config.yaml](config.yaml) file and can be changed to any version of the reference UShER tree.
 
+The file containing the nucleotide pairing predictions from [Lan et al](https://www.nature.com/articles/s41467-022-28603-2) is located at [./data/lan_2022](data/lan_2022/).
+
 ### Configuration
 Ahead of the computation of mutational fitness effects, predicted and actual mutation counts can be aggregated by defining clusters of clades. This is defined by a dictionary `clade_clusters` in the [config.yaml](config.yaml) file, which can be customized.
 
@@ -55,3 +57,35 @@ Files produced by the pipeline are saved into the [./results](results) folder. T
 - [master_tables](results/master_tables/): the reference models inferred from the training datasets, i.e. a site's context and the associated mutation rate.
 - [ntmut_fitness](results/ntmut_fitness/): files `{cluster}_ntmut_fitness.csv` for each cluster of clades with the nucleotide mutation fitness effects.
 - [aamut_fitness](results/aamut_fitness/): files `{cluster}_aamut_fitness.csv` with fitness effects of the amino acid mutations for each cluster of clades.
+
+## Theoretical framework
+A detailed description of the theoretical framework for the GLM and the Bayesian setting can be found in this [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex). Here we outline some fundamental elements.
+
+### GLM for predicted counts
+GLM's are inferred on two curated datasets containing counts for synonymous mutations. Genome sites are retained if:
+- The wildtype nucleotide of the clade founder is equal to the [Wuhan-1](https://www.ncbi.nlm.nih.gov/nuccore/1798174254) reference.
+- The site motif, i.e. 5'-3' nucleotides context does not change.
+- The codon the sites belongs to is conserved.
+- Sites that are marked as `excluded=True` or `masked_in_usher=True` are excluded.
+
+The output of the GLM is a predicted count for each possible nucleotide mutation and condition:
+
+$$ n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(\mathbf c_i\right) = n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(p_i, m_i, l_i\right), $$
+
+where:
+- $x_i$, $y_i$ are the wildtype and mutant nucleotide respectively.
+- $p_i$ is the pairing state.
+- $m_i$ is the site motif.
+- $l_i$ indicates if the site is before/after a lightswitch position along the genome.
+
+These predicted counts can be converted in terms of rates by imposing that:
+
+$$ N_s = T\sum_{x, \mathbf c}\sum_{y\neq x} s^{x\rightarrow y}\left(\mathbf c\right)r^{x\rightarrow y}(\mathbf c), $$
+
+where $r^{x\rightarrow y}(\mathbf c)$ are the rates, $s^{x\rightarrow y}(\mathbf c)$ are the number of sites in the genome for which $x\rightarrow y$ is synonymous in condition $\mathbf c$ and $N_s$ is the total number of synonymous mutations. From the previous equation one can show that $T = N_s / \sum_{x,\mathbf{c},y\neq x}s^{x\rightarrow y}(\mathbf{c})$ and finally $r^{x\rightarrow y}(\mathbf{c}) = n^{x\rightarrow y}_{\mathrm{pred}}(\mathbf{c}) / T$.
+
+Once the rates are determined from the training datasets, it is possible to compute the predicted counts for every clade-specific subtree, by re-scaling according to the proper evolutionary time $n^{a, x\rightarrow y}_{\mathrm{pred}}(\mathbf{c}) = T^a \times r^{{x\rightarrow y}}(\mathbf{c})$, $a$ being the clade label.
+
+### Posterior estimate of mutation fitness
+
+
