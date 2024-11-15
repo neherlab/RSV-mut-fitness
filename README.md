@@ -88,4 +88,49 @@ Once the rates are determined from the training datasets, it is possible to comp
 
 ### Posterior estimate of mutation fitness
 
+#### Nucleotide mutations
+Fitness effects of nucleotide mutations are computed within a Bayesian
+probabilistic framework. For a specific site and nucleotide mutation,
+our objective is the posteior probability of the fitness effect $\Delta f$ given
+the observed counts $n_{\mathrm{obs}}$ and integrating over the possible expected
+counts $n_{\mathrm{exp}}$, whose mean is the model prediction $n_{\mathrm{pred}}$.
+
+The posterior reads:
+
+$$ P(\Delta f \vert n_{\mathrm{obs}}) \propto P(n_{\mathrm{obs}} \vert \Delta f) P(\Delta f), $$
+
+with the likelihood being:
+
+$$ P(n_{\mathrm{obs}} \vert \Delta f) =
+\int_{0}^{+\infty}\mathrm{d}n_{\mathrm{exp}} P(n_{\mathrm{obs}} \vert \Delta f, n_{\mathrm{exp}}) 
+P(n_{\mathrm{exp}}).
+$$
+
+Once the posterior is known, we can compute our estimate and uncertainty of the fitness
+effect as:
+
+$$
+\begin{cases}
+  \left\langle \Delta f \right\rangle = \int_{-\infty}^{+\infty}\mathrm{d}(\Delta f)P(\Delta f \vert n_{\mathrm{obs}})\Delta f  \\
+  \sigma_{\Delta f} = \sqrt{\left\langle \Delta f^2 \right\rangle - \left\langle \Delta f \right\rangle^2}
+\end{cases}
+$$
+
+#### Amino acid mutations
+Fitness effects of amino acid mutations are computed as weighted averages
+of all nucleotide mutations producing the same nonsynonymous mutation in a
+given codon. For an amino acid mutation $a\rightarrow a'$ one gets:
+
+$$
+\begin{cases}
+  \Delta f\left(a\rightarrow a'\right) = \frac{{\sum_i}{\sum_y}
+  \frac{\left\langle \Delta f_i(x_i\rightarrow y_i) \right\rangle}{\sigma^2_{\Delta f_i(x_i\rightarrow y_i)}} \delta\left(a',g(\mathbf y)\right)}
+  {{\sum_i}{\sum_y}
+  \frac{1}{\sigma^2_{\Delta f_i(x_i\rightarrow y_i)}} \delta\left(a',g(\mathbf y)\right)} \\
+  \sigma_{\Delta f(a\rightarrow a')} = \frac{1}
+  {\sqrt{{\sum_i}{\sum_y}
+  \frac{\delta\left(a',g(\mathbf y)\right)}{\sigma^2_{\Delta f_i(x_i\rightarrow y_i)}}}}
+\end{cases}
+$$
+
 
