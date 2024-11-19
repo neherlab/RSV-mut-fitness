@@ -8,7 +8,8 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys()),
+        #expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys()),
+        'results/aamut_fitness/aamut_fitness_by_cluster.csv'
 
 rule get_counts_table:
     message:
@@ -121,6 +122,18 @@ rule aamut_fitness:
     notebook:
         'notebook/aamut_fitness.py.ipynb'
 
-localrules:
-    get_counts_table,
-    get_clade_founder,
+rule concat_aamut:
+    message:
+        "Concatenating {{cluster_aamut}}_fitness.csv files"
+    input:
+        aafit_csv=expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys())
+    output:
+        aafit_concat=temp('results/aamut_fitness/aamut_fitness_by_cluster.csv')
+    shell:
+        """
+        {{ 
+            head -n 1 {input.aafit_csv[0]};
+            tail -n +2 -q {input.aafit_csv}
+        }} > {output.aafit_concat}
+        """
+

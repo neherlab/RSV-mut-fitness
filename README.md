@@ -133,4 +133,7 @@ $$
 \end{cases}
 $$
 
+where $g(\mathbf y)$ maps the codon into the corresponding amino acid, and the sums run over
+the codon sites and possible mutant nucleotides at these sites $y_i$.
+
 
