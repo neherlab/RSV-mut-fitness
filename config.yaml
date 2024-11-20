@@ -1,5 +1,9 @@
 # Configuration file for pipeline
 
+# specify one of the mutation-annotated trees in `mat_trees` as the "current" one that is
+# linked to by default as the best current estimates.
+current_mat: giasid_2024-04-24
+
 # Links to dataframes from Jesse's repository: jbloomlab/SARS2-mut-fitness
 url_founder: https://raw.githubusercontent.com/jbloomlab/SARS2-mut-fitness/refs/heads/main/results_gisaid_2024-04-24/clade_founder_nts/clade_founder_nts.csv
 url_counts: https://media.githubusercontent.com/media/jbloomlab/SARS2-mut-fitness/refs/heads/main/results_gisaid_2024-04-24/expected_vs_actual_mut_counts/expected_vs_actual_mut_counts.csv
@@ -20,7 +24,22 @@ clade_cluster:
  'late': ['23I']
  }
 
-# Orf1ab to Nsp numbering (amino-acid start in Orf1ab) from
+ # Mapping for grouping clades into clusters
+cluster_founder:
+  ancestral: 20A
+  20H: 20H
+  20I: 20I
+  20J: 20J
+  21I: 21I
+  21J: 21J
+  21K: 21K
+  BA.2: 21L
+  BA.4-5: 22A
+  BA.2.75: 22D
+  XBB: 22F
+  late: 23I
+
+  # Orf1ab to Nsp numbering (amino-acid start in Orf1ab) from
 # https://github.com/theosanderson/Codon2Nucleotide/blob/main/src/App.js
 orf1ab_to_nsps:
   nsp1: [1, 180]
@@ -56,3 +75,53 @@ fitness_pseudocount: 0.5
 genes: ['ORF1ab', 'nsp1', 'nsp2', 'nsp3', 'nsp4', 'nsp5 (Mpro)', 'nsp6', 'nsp7', 'nsp8', 'nsp9',
   'nsp10', 'nsp12 (RdRp)', 'nsp13', 'nsp14', 'nsp15', 'nsp16', 'S', 'ORF3a', 'E', 'M', 'ORF6',
   'ORF7a', 'ORF7b', 'ORF8', 'ORF9b', 'N', 'ORF10']
+
+  # Define common names of Nexstrain clades
+clade_synonyms:
+  19A: B
+  20A: B.1
+  20B: B.1.1
+  20C: B.1.367
+  20E: B.1.177
+  20F: D.2
+  20G: B.1.2
+  20I: Alpha
+  20J: Gamma
+  21C: Epsilon
+  21F: Iota
+  21I: Delta
+  21J: Delta
+  21K: Omicron BA.1
+  21L: Omicron BA.2
+  22A: Omicron BA.4
+  22B: Omicron BA.5
+  22C: Omicron BA.2.12.1
+  22D: Omicron BA.2.75
+  22E: Omicron BQ.1
+  22F: XBB
+  23A: XBB.1.5
+  23B: BB.1.16
+  23C: CH.1.1
+  23D: XBB.1.9
+  23E: XBB.2.3
+  23F: EG.5.1
+  23G: XBB.1.5.70
+  23H: HK.3
+  23I: BA.2.86
+  24A: JN.1
+  24B: JN.1.11.1
+  24C: KP.3
+  24D: XDV.1
+  24E: KP.3.1.1
+  24F: XEC
+  24G: KP.2.3
+
+aa_fitness_heatmap_minimal_domain: [-6, 2]
+
+aa_fitness_init_ref_clade: 19A
+
+min_expected_count: 10
+
+# For GitHub Pages docs of plots
+docs_url: https://neherlab.github.io/SARS2-refined-fitness  # base URL for GitHub pages site
+docs_plot_annotations: data/docs_plot_annotations.yaml  # lists plots and their annotations

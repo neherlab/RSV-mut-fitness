@@ -4,12 +4,20 @@ and produces refined fitness including estimates of uncertainty for each mutatio
 in different subsets of the total sequence availability.
 """
 
+import yaml
+
 configfile: "config.yaml"
 
+with open(config["docs_plot_annotations"]) as f:
+    docs_plot_annotations = yaml.safe_load(f)
+
 rule all:
+    """Target rule with desired output files."""
     input:
-        #expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys()),
-        'results/aamut_fitness/aamut_fitness_by_cluster.csv'
+        expand(
+            "docs/{plot}.html",
+            plot=list(docs_plot_annotations["plots"]) + ["index"],
+        ),
 
 rule get_counts_table:
     message:
@@ -22,13 +30,14 @@ rule get_counts_table:
         """
             curl -k {params.url_counts} > {output.csv}
         """
+
 rule get_clade_founder:
     message:
         "Downloading table with clade founder sequences from Jesse Bloom's GitHub repository"
     params:
         url_founder=config["url_founder"],
     output:
-        csv=temp('results/clade_founder.csv')
+        csv='data/clade_founder.csv'
     shell:
         """
             curl {params.url_founder} > {output.csv}
@@ -124,11 +133,11 @@ rule aamut_fitness:
 
 rule concat_aamut:
     message:
-        "Concatenating {{cluster_aamut}}_fitness.csv files"
+        "Concatenating {{cluster}}_aamut_fitness.csv files",
     input:
-        aafit_csv=expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys())
+        aafit_csv=expand('results/aamut_fitness/{cluster}_aamut_fitness.csv', cluster=config['clade_cluster'].keys()),
     output:
-        aafit_concat=temp('results/aamut_fitness/aamut_fitness_by_cluster.csv')
+        aafit_concat=temp('results/aamut_fitness/aamut_fitness_by_cluster.csv'),
     shell:
         """
         {{ 
@@ -137,3 +146,79 @@ rule concat_aamut:
         }} > {output.aafit_concat}
         """
 
+rule heatmaps:
+    message:
+        "Generating interactive heatmaps of a.a. mutational fitness",
+    params:
+        min_expected_count = config['min_expected_count'],
+        clade_synonyms = config['clade_synonyms'],
+        heatmap_minimal_domain = config['aa_fitness_heatmap_minimal_domain'],
+        orf1ab_to_nsps = config['orf1ab_to_nsps'],
+        init_ref_clade = config['aa_fitness_init_ref_clade'],
+        clade_cluster = config['clade_cluster'],
+        cluster_founder = config['cluster_founder'],
+    input:
+        clade_founder_nts=rules.get_clade_founder.output.csv,
+        aamut_by_cluster=rules.concat_aamut.output.aafit_concat,
+    output:
+        outdir=temp(directory('results/aamut_fitness/plots'))
+    notebook:
+        'notebook/aamut_heatmaps.py.ipynb'
+
+rule aggregate_plots_for_docs:
+    """Aggregate plots to include in GitHub pages docs."""
+    input:
+        aa_fitness_plots_dir=rules.heatmaps.output.outdir,
+    output:
+        temp(
+            expand(
+                "results/plots_for_docs/{plot}.html",
+                plot=docs_plot_annotations["plots"],
+            )
+        ),
+    params:
+        plotsdir="results/plots_for_docs",
+    shell:
+        """
+        mkdir -p {params.plotsdir}
+        rm -f {params.plotsdir}/*
+        cp {input.aa_fitness_plots_dir}/*.html {params.plotsdir}
+        """
+    
+rule format_plot_for_docs:
+    message:
+        "Format a specific plot for the GitHub pages docs"
+    input:
+        plot=os.path.join(rules.aggregate_plots_for_docs.params.plotsdir, "{plot}.html"),
+        script="scripts/format_altair_html.py",
+    output:
+        plot="docs/{plot}.html",
+        markdown=temp("results/plots_for_docs/{plot}.md"),
+    params:
+        annotations=lambda wc: docs_plot_annotations["plots"][wc.plot],
+        url=config["docs_url"],
+        legend_suffix=docs_plot_annotations["legend_suffix"],
+    shell:
+        """
+        echo "## {params.annotations[title]}\n" > {output.markdown}
+        echo "{params.annotations[legend]}\n\n" >> {output.markdown}
+        echo "{params.legend_suffix}" >> {output.markdown}
+        python {input.script} \
+            --chart {input.plot} \
+            --markdown {output.markdown} \
+            --site {params.url} \
+            --title "{params.annotations[title]}" \
+            --description "{params.annotations[title]}" \
+            --output {output.plot}
+        """
+
+rule docs_index:
+    message:
+        "Write index for GitHub Pages doc"
+    output:
+        html="docs/index.html",
+    params:
+        plot_annotations=docs_plot_annotations,
+        current_mat=config["current_mat"],
+    script:
+        "scripts/docs_index.py"
