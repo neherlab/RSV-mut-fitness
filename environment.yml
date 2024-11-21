@@ -15,3 +15,6 @@ dependencies:
   - certifi
   - openssl=3.3.2
   - jupyter=1.1.1
+  - altair=4.2
+  - markdown=3.6
+  - biopython=1.79
