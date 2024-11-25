@@ -154,7 +154,6 @@ rule heatmaps:
         clade_synonyms = config['clade_synonyms'],
         heatmap_minimal_domain = config['aa_fitness_heatmap_minimal_domain'],
         orf1ab_to_nsps = config['orf1ab_to_nsps'],
-        init_ref_clade = config['aa_fitness_init_ref_clade'],
         clade_cluster = config['clade_cluster'],
         cluster_founder = config['cluster_founder'],
     input:

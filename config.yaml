@@ -76,7 +76,7 @@ genes: ['ORF1ab', 'nsp1', 'nsp2', 'nsp3', 'nsp4', 'nsp5 (Mpro)', 'nsp6', 'nsp7',
   'nsp10', 'nsp12 (RdRp)', 'nsp13', 'nsp14', 'nsp15', 'nsp16', 'S', 'ORF3a', 'E', 'M', 'ORF6',
   'ORF7a', 'ORF7b', 'ORF8', 'ORF9b', 'N', 'ORF10']
 
-  # Define common names of Nexstrain clades
+# Define common names of Nexstrain clades
 clade_synonyms:
   19A: B
   20A: B.1
@@ -86,6 +86,7 @@ clade_synonyms:
   20F: D.2
   20G: B.1.2
   20I: Alpha
+  20H: Beta
   20J: Gamma
   21C: Epsilon
   21F: Iota
@@ -116,10 +117,10 @@ clade_synonyms:
   24F: XEC
   24G: KP.2.3
 
-aa_fitness_heatmap_minimal_domain: [-6, 2]
+# minimal domain for amino-acid fitness heatmap
+aa_fitness_heatmap_minimal_domain: [-6, 2] 
 
-aa_fitness_init_ref_clade: 19A
-
+# Default minimum expected count for amino-acid fitness estimates
 min_expected_count: 10
 
 # For GitHub Pages docs of plots
