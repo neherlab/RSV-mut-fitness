@@ -6,12 +6,12 @@ legend_suffix: |
 
   See [https://github.com/neherlab/SARS2-refined-fitness](https://github.com/neherlab/SARS2-refined-fitness/) for full computer code and data.
 
-  See [https://neherlab.github.io/SARS2-mut-fitness/](https://neherlab.github.io/SARS2-refined-fitness/) for links to all interactive plots.
+  See [https://neherlab.github.io/SARS2-refined-fitness/](https://neherlab.github.io/SARS2-refined-fitness/) for links to all interactive plots.
 
 # some information for the index page
 index_title: Interactive plots of estimated fitness effects of SARS-CoV-2 amino-acid mutations
 index_abstract: |
-  Fitness effects estimated from observed versus expected counts as predicted by a general linear model.
+  Fitness effects estimated from observed versus predicted counts as predicted by a general linear model.
 
   Analysis described in [Haddox H.K. et al. (2024)](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex).
 
@@ -244,7 +244,7 @@ plots:
     section: heatmap
     legend: |
       Interactive plot of fitnesses amino acids at each site estimated from the observed versus
-      expected counts of the amino acids among natural sequences.
+      predicted counts of the amino acids among natural sequences.
 
       The black area plot at top shows the mean fitness for all non-stop amino acids at each
       site, with more negative values
@@ -260,11 +260,11 @@ plots:
       Gray indicates amino acids with insufficient natural evolutionary data to make estimates
       (typically only single-nucleotide accessible amino acids will be shown). You can
       mouse over points in the heat map for details, and zoom using the area plot at top.
-      The **x** at each site indicates the wildtype amino acid in the SARS-CoV-2 cluster of clades
+      The **x** at each site indicates the wildtype amino acid in the *oldest* clade of a cluster,
       indicated by the dropdown box below the plot. The button below allows to visualize amino acids
       mutational effects for a specific cluster of clades.
 
-      The *minimum expected count* slider below the plot indicates how many expected counts of an
+      The *minimum expected count* slider below the plot indicates how many predicted counts of an
       an amino acid we require before making a fitness estimate. Larger values yield more
       accurate estimates but for fewer amino acids. So move the slider to the left to show
       estimates for more amino acids at lower confidence, and move it to the right to show
