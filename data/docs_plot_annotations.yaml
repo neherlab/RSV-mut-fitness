@@ -11,7 +11,7 @@ legend_suffix: |
 # some information for the index page
 index_title: Interactive plots of estimated fitness effects of SARS-CoV-2 amino-acid mutations
 index_abstract: |
-  Fitness effects estimated from observed versus expected counts as estimated from a general linear model.
+  Fitness effects estimated from observed versus expected counts as predicted by a general linear model.
 
   Analysis described in [Haddox H.K. et al. (2024)](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex).
 

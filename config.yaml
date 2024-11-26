@@ -2,7 +2,7 @@
 
 # specify one of the mutation-annotated trees in `mat_trees` as the "current" one that is
 # linked to by default as the best current estimates.
-current_mat: giasid_2024-04-24
+current_mat: gisaid_2024-04-24
 
 # Links to dataframes from Jesse's repository: jbloomlab/SARS2-mut-fitness
 url_founder: https://raw.githubusercontent.com/jbloomlab/SARS2-mut-fitness/refs/heads/main/results_gisaid_2024-04-24/clade_founder_nts/clade_founder_nts.csv
