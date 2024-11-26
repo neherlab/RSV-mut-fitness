@@ -7,4 +7,5 @@ __pycache__
 /results/clade_founder.csv
 /results/mut_counts_by_clade.csv
 /results/pred_mut_counts_by_clade.csv
+/results/ntmut_fitness/*ntmut_counts.csv
 .snakemake

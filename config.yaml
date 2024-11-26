@@ -39,6 +39,7 @@ cluster_founder:
   BA.2.75: 22D
   XBB: 22F
   late: 23I
+  all: 20A
 
   # Orf1ab to Nsp numbering (amino-acid start in Orf1ab) from
 # https://github.com/theosanderson/Codon2Nucleotide/blob/main/src/App.js

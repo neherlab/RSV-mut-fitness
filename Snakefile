@@ -25,7 +25,7 @@ rule get_counts_table:
     params:
         url_counts=config["url_counts"],
     output:
-        csv=temp('results/expected_vs_actual_counts.csv')
+        csv='results/expected_vs_actual_counts.csv'
     shell:
         """
             curl -k {params.url_counts} > {output.csv}
