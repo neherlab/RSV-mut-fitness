@@ -8,20 +8,23 @@ by [Jesse Bloom](https://scholar.google.com/citations?user=S12x_eQAAAAJ&hl=en) a
 The two main novelties consist in:
 * Estimating the mutation rates with a *general linear model* that takes into account several factors such as:
   - A site's local nucleotide context.
-  - Its structural pairing in RNA secondary structure.
-  - The region of the genome it belongs to.
+  - The base pairing in RNA secondary structure.
+  - The region of the genome the site belongs to.
 * Fitness effects of mutations are now computed within a Bayesian probabilistic framework that also provides uncertainties.
 
 ## References
-- Details about the computational framework can be found  in the related [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex).
+- Details about the computational framework can be found in the related [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex).
 - Data used as reference for RNA secondary structure are in [Lan et al](https://www.nature.com/articles/s41467-022-28603-2).
 - Evidence about influence of secondary structure on mutation rates were first presented in a paper by [Hensel](https://www.biorxiv.org/content/10.1101/2024.02.27.581995v1.abstract).
 - The original approach for estimating mutational fitness is presented in [Bloom & Neher](https://academic.oup.com/ve/article/9/2/vead055/7265011).
 
+## Interactive plots
+Interactive plots for visualizing the results of the analysis can be found at [https://neherlab.github.io/SARS2-refined-fitness/](https://neherlab.github.io/SARS2-refined-fitness/).
+
 ## Computational pipeline
 It is possible to reproduce the fitness estimates by running the computational analysis defined in this GitHub repository.
 
-Firstly, a customized [conda](https://docs.conda.io/) environment needs to be buily from the [environment.yml](environment.yml) file. To do so, you must install [conda](https://docs.conda.io/) and then run:
+Firstly, a customized [conda](https://docs.conda.io/) environment needs to be built from the [environment.yml](environment.yml) file. To do so, you must install [conda](https://docs.conda.io/) and then run:
 
     conda env create -f environment.yml
 
@@ -49,11 +52,11 @@ The related links are defined in the [config.yaml](config.yaml) file and can be 
 The file containing the nucleotide pairing predictions from [Lan et al](https://www.nature.com/articles/s41467-022-28603-2) is located at [./data/lan_2022](data/lan_2022/).
 
 ### Configuration
-Ahead of the computation of mutational fitness effects, predicted and actual mutation counts can be aggregated by defining clusters of clades. This is defined by a dictionary `clade_clusters` in the [config.yaml](config.yaml) file, which can be customized.
+Ahead of the computation of mutational fitness effects, predicted and actual mutation counts can be aggregated by defining clusters of clades. This is defined by a dictionary `clade_cluster` in the [config.yaml](config.yaml) file, which can be customized.
 
 ### Output
 Files produced by the pipeline are saved into the [./results](results) folder. These are subsequently divided in the following subfolders:
-- [curated](results/curated/): the training datasets for the *General Linear Model* (GLM) producing the predicted counts. These are divided among pre and Omicron clades.
+- [curated](results/curated/): the training datasets for the *General Linear Model* (GLM) producing the predicted counts. These are divided between pre and Omicron clades.
 - [master_tables](results/master_tables/): the reference models inferred from the training datasets, i.e. a site's context and the associated mutation rate.
 - [ntmut_fitness](results/ntmut_fitness/): files `{cluster}_ntmut_fitness.csv` for each cluster of clades with the nucleotide mutation fitness effects.
 - [aamut_fitness](results/aamut_fitness/): files `{cluster}_aamut_fitness.csv` with fitness effects of the amino acid mutations for each cluster of clades.
@@ -65,12 +68,12 @@ A detailed description of the theoretical framework for the GLM and the Bayesian
 GLM's are inferred on two curated datasets containing counts for synonymous mutations. Genome sites are retained if:
 - The wildtype nucleotide of the clade founder is equal to the [Wuhan-1](https://www.ncbi.nlm.nih.gov/nuccore/1798174254) reference.
 - The site motif, i.e. 5'-3' nucleotides context does not change.
-- The codon the sites belongs to is conserved.
+- The codon the site belongs to is conserved.
 - Sites that are marked as `excluded=True` or `masked_in_usher=True` are excluded.
 
 The output of the GLM is a predicted count for each possible nucleotide mutation and condition:
 
-$$ n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(\mathbf c_i\right) = n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(p_i, m_i, l_i\right), $$
+$$n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(\mathbf c_i\right) = n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(p_i, m_i, l_i\right),$$
 
 where:
 - $x_i$, $y_i$ are the wildtype and mutant nucleotide respectively.
@@ -84,7 +87,7 @@ $$ N_s = T\sum_{x, \mathbf c}\sum_{y\neq x} s^{x\rightarrow y}\left(\mathbf c\ri
 
 where $r^{x\rightarrow y}(\mathbf c)$ are the rates, $s^{x\rightarrow y}(\mathbf c)$ are the number of sites in the genome for which $x\rightarrow y$ is synonymous in condition $\mathbf c$ and $N_s$ is the total number of synonymous mutations. From the previous equation one can show that $T = N_s / \sum_{x,\mathbf{c},y\neq x}s^{x\rightarrow y}(\mathbf{c})$ and finally $r^{x\rightarrow y}(\mathbf{c}) = n^{x\rightarrow y}_{\mathrm{pred}}(\mathbf{c}) / T$.
 
-Once the rates are determined from the training datasets, it is possible to compute the predicted counts for every clade-specific subtree, by re-scaling according to the proper evolutionary time $n^{a, x\rightarrow y}_{\mathrm{pred}}(\mathbf{c}) = T^a \times r^{{x\rightarrow y}}(\mathbf{c})$, $a$ being the clade label.
+Once the rates are determined from the training datasets, it is possible to compute the predicted counts for every clade-specific subtree by re-scaling according to the proper evolutionary time $n^{a, x\rightarrow y}_{\mathrm{pred}}(\mathbf{c}) = T^a \times r^{{x\rightarrow y}}(\mathbf{c})$, $a$ being the clade label.
 
 ### Posterior estimate of mutation fitness
 
@@ -92,7 +95,7 @@ Once the rates are determined from the training datasets, it is possible to comp
 Fitness effects of nucleotide mutations are computed within a Bayesian
 probabilistic framework. For a specific site and nucleotide mutation,
 our objective is the posteior probability of the fitness effect $\Delta f$ given
-the observed counts $n_{\mathrm{obs}}$ and integrating over the possible expected
+the observed counts $n_{\mathrm{obs}}$ and integrated over the possible expected
 counts $n_{\mathrm{exp}}$, whose mean is the model prediction $n_{\mathrm{pred}}$.
 
 The posterior reads:
@@ -134,6 +137,6 @@ $$
 $$
 
 where $g(\mathbf y)$ maps the codon into the corresponding amino acid, and the sums run over
-the codon sites and possible mutant nucleotides at these sites $y_i$.
+the codon sites $i$ and possible mutant nucleotides at these sites $y_i$.
 
 
