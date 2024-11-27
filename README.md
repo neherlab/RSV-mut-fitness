@@ -2,15 +2,18 @@
 
 ## Overview
 This repository computes an updated estimate of the fitness effects of mutations of the SARS-CoV-2 genome,
-expanding and building on the approach presented in a [paper](https://academic.oup.com/ve/article/9/2/vead055/7265011)
-by [Jesse Bloom](https://scholar.google.com/citations?user=S12x_eQAAAAJ&hl=en) and [Richard Neher](https://neherlab.org/).
+based on the work presented in this [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex) by H.K. Haddox, 
+G. Angehrn, L. Sesta, C. Jennings-Shaffer, S. Temple, J.G. Galloway, W.S. DeWitt, [F.A. Matsen IV](https://matsen.fhcrc.org/), and [R.A. Neher](https://neherlab.org/).
 
-The two main novelties consist in:
-* Estimating the mutation rates with a *general linear model* that takes into account several factors such as:
-  - A site's local nucleotide context.
-  - The base pairing in RNA secondary structure.
-  - The region of the genome the site belongs to.
-* Fitness effects of mutations are now computed within a Bayesian probabilistic framework that also provides uncertainties.
+The counts from the SARS-CoV-2 mutation-annotated tree provided by the [UShER developers](https://usher-wiki.readthedocs.io/)
+are used to accurately estimate the mutation rates according to:
+
+* A site's local nucleotide context.
+* The base pairing in RNA secondary structure.
+* The region of the genome the site belongs to.
+
+Fitness effects are subsequently estimated by comparing the actual observed counts to the one predicted from the
+inferred rates, within a Bayesian probabilistic framework that also provides uncertainties.
 
 ## References
 - Details about the computational framework can be found in the related [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex).
