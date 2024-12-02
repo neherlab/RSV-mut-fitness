@@ -146,28 +146,29 @@ rule concat_aamut:
         }} > {output.aafit_concat}
         """
 
-rule heatmaps:
+rule aamut_plots:
     message:
-        "Generating interactive heatmaps of a.a. mutational fitness",
+        "Generating interactive plots of a.a. mutational fitness",
     params:
-        min_expected_count = config['min_expected_count'],
+        min_predicted_count = config['min_predicted_count'],
         clade_synonyms = config['clade_synonyms'],
         heatmap_minimal_domain = config['aa_fitness_heatmap_minimal_domain'],
         orf1ab_to_nsps = config['orf1ab_to_nsps'],
         clade_cluster = config['clade_cluster'],
         cluster_founder = config['cluster_founder'],
+        cluster_corr_min_count = config['cluster_corr_min_count'],
     input:
         clade_founder_nts=rules.get_clade_founder.output.csv,
         aamut_by_cluster=rules.concat_aamut.output.aafit_concat,
     output:
         outdir=temp(directory('results/aamut_fitness/plots'))
     notebook:
-        'notebook/aamut_heatmaps.py.ipynb'
+        'notebook/aamut_plots.py.ipynb'
 
 rule aggregate_plots_for_docs:
     """Aggregate plots to include in GitHub pages docs."""
     input:
-        aa_fitness_plots_dir=rules.heatmaps.output.outdir,
+        aa_fitness_plots_dir=rules.aamut_plots.output.outdir,
     output:
         temp(
             expand(

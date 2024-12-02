@@ -123,7 +123,10 @@ clade_synonyms:
 aa_fitness_heatmap_minimal_domain: [-6, 2] 
 
 # Default minimum expected count for amino-acid fitness estimates
-min_expected_count: 10
+min_predicted_count: 10
+
+# minimum count for correlation calculation
+cluster_corr_min_count: 500000  
 
 # For GitHub Pages docs of plots
 docs_url: https://neherlab.github.io/SARS2-refined-fitness  # base URL for GitHub pages site
