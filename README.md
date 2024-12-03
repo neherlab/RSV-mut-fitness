@@ -74,11 +74,8 @@ GLM's are inferred on two curated datasets containing counts for synonymous muta
 - The codon the site belongs to is conserved.
 - Sites that are marked as `excluded=True` or `masked_in_usher=True` are excluded.
 
-The output of the GLM is a predicted count for each possible nucleotide mutation and condition:
+The output of the GLM is a predicted count for each possible nucleotide mutation and condition $`n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(\mathbf c_i \right) = n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(p_i, m_i, l_i\right)`$, where:
 
-$$n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(\mathbf c_i\right) = n^{x_i\rightarrow y_i}_{\mathrm{pred}}\left(p_i, m_i, l_i\right),$$
-
-where:
 - $x_i$, $y_i$ are the wildtype and mutant nucleotide respectively.
 - $p_i$ is the pairing state.
 - $m_i$ is the site motif.
