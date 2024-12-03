@@ -4,9 +4,9 @@
 legend_suffix: |
   See [Haddox H.K. et al. (2024)](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex) for a paper describing the work.
 
-  See [https://github.com/neherlab/SARS2-refined-fitness](https://github.com/neherlab/SARS2-refined-fitness/) for full computer code and data.
+  See [https://github.com/neherlab/SARS2-mut-fitness-v2](https://github.com/neherlab/SARS2-mut-fitness-v2/) for full computer code and data.
 
-  See [https://neherlab.github.io/SARS2-refined-fitness/](https://neherlab.github.io/SARS2-refined-fitness/) for links to all interactive plots.
+  See [https://neherlab.github.io/SARS2-mut-fitness-v2/](https://neherlab.github.io/SARS2-mut-fitness-v2/) for links to all interactive plots.
 
 # some information for the index page
 index_title: Interactive plots of estimated fitness effects of SARS-CoV-2 amino-acid mutations

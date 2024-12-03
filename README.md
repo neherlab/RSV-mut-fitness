@@ -22,7 +22,7 @@ inferred rates, within a Bayesian probabilistic framework that also provides unc
 - The original approach for estimating mutational fitness is presented in [Bloom & Neher](https://academic.oup.com/ve/article/9/2/vead055/7265011).
 
 ## Interactive plots
-Interactive plots for visualizing the results of the analysis can be found at [https://neherlab.github.io/SARS2-refined-fitness/](https://neherlab.github.io/SARS2-refined-fitness/).
+Interactive plots for visualizing the results of the analysis can be found at [https://neherlab.github.io/SARS2-mut-fitness-v2/](https://neherlab.github.io/SARS2-mut-fitness-v2/).
 
 ## Computational pipeline
 It is possible to reproduce the fitness estimates by running the computational analysis defined in this GitHub repository.
@@ -31,9 +31,9 @@ Firstly, a customized [conda](https://docs.conda.io/) environment needs to be bu
 
     conda env create -f environment.yml
 
-This will create a [conda](https://docs.conda.io/) environment called `SARS2-refined-fitness`, that you need to activate:
+This will create a [conda](https://docs.conda.io/) environment called `SARS2-mut-fitness-v2`, that you need to activate:
 
-    conda activate SARS2-refined-fitness
+    conda activate SARS2-mut-fitness-v2
 
 The pipeline is managed by [snakemake](https://snakemake.readthedocs.io/) through a [Snakefile](Snakefile), whose configuration is defined in [config.yaml](config.yaml). To run the pipeline use:
 
