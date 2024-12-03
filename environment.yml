@@ -1,4 +1,4 @@
-name: SARS2-refined-fitness
+name: SARS2-mut-fitness-v2
 channels:
   - conda-forge
   - bioconda
