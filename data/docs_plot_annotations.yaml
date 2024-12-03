@@ -160,7 +160,7 @@ plots:
 
       You can mouse over points for details.
     
-      The *minimum predicted count* slider below the plot indicates how many predicted counts of an
+      The *minimum expected count* slider below the plot indicates how many predicted counts of an
       an amino acid we require before making a fitness estimate. Larger values yield more
       accurate estimates but for fewer amino acids. So move the slider to the left to show
       estimates for more amino acids at lower confidence, and move it to the right to show
