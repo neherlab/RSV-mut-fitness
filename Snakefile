@@ -14,6 +14,8 @@ with open(config["docs_plot_annotations"]) as f:
 rule all:
     """Target rule with desired output files."""
     input:
+        'results/master_tables/master_table_pre_omicron.csv',
+        'results/master_tables/master_table_omicron.csv',
         expand(
             "docs/{plot}.html",
             plot=list(docs_plot_annotations["plots"]) + ["index"],
