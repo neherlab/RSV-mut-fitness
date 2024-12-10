@@ -53,7 +53,8 @@ rule annotate_counts:
         counts=rules.get_counts_table.output.csv,
         clade_founder=rules.get_clade_founder.output.csv,
     output:
-        csv=temp("results/mut_counts_by_clade.csv"),
+        counts_csv=temp("results/mut_counts_by_clade.csv"),
+        founder_csv="results/clade_founder.csv",
     notebook:
         "notebook/counts_by_clade.py.ipynb"
 
@@ -61,7 +62,8 @@ rule curated_counts:
     message:
         "Create training dataset to infer the General Linear Model for mutations in Omicron and pre-Omicron sequences"
     input:
-        mut_counts=rules.annotate_counts.output.csv,
+        mut_counts=rules.annotate_counts.output.counts_csv,
+        clade_founder=rules.annotate_counts.output.founder_csv,
     output:
         pre_omicron="results/curated/curated_mut_counts_pre_omicron.csv",
         omicron="results/curated/curated_mut_counts_omicron.csv"
@@ -84,7 +86,7 @@ rule predicted_counts:
     message:
         "Add predicted counts, based on the inferred mutation rate model, to the table with observed mutation counts."
     input:
-        counts_df=rules.annotate_counts.output.csv,
+        counts_df=rules.annotate_counts.output.counts_csv,
         pre_omicron=rules.curated_counts.output.pre_omicron,
         omicron=rules.curated_counts.output.omicron,
     output:
