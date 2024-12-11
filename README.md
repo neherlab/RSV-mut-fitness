@@ -64,6 +64,18 @@ Files produced by the pipeline are saved into the [./results](results) folder. T
 - [ntmut_fitness](results/ntmut_fitness/): files `{cluster}_ntmut_fitness.csv` for each cluster of clades with the nucleotide mutation fitness effects.
 - [aamut_fitness](results/aamut_fitness/): files `{cluster}_aamut_fitness.csv` with fitness effects of the amino acid mutations for each cluster of clades.
 
+#### Nucleotide fitness
+The fitness effects of nucleotide mutations are reported in the `./results/_ntmut_fitness.csv` folder. In the dataframes therein, the output of the Bayesian probabilistic framework can be found, see section [Theoretical framework](#theoretical-framework) for additional details. Relevant entries are:
+* `f_mean`: the average with respect to the posterior of the fitness effect. It will provide the input for amino acid fitness effects.
+* `f_st_dev`: the posterior standard deviation, representing the uncertainty on the nucleotide fitness effect. It is also input for the amino acid estimates.
+
+#### Amino acid fitness
+The results for amino acid fitness effects are found in the `./results/aamut_fitness/` folder. In the dataframes therein, relevant columns are:
+* `delta_fitness`: the estimate of the fitness effect of an amino acid mutation. It is computed as the weighted average of the nucleotide effects in the corresponding codon that produce the nonsynonymous mutation. Given a set of weights $w_i$, the weighted average of $f$ reads $\overline f=\sum_iw_if_i/\sum_iw_i$. In our case, the weights are the inverse variances, i.e. $w_i=1/\sigma^2_i$.
+* `uncertainty`: it is the uncertainty associated to the weighted average. It can be interpreted as the overall standard deviation of a probability distribution defined as the product of a set of univariate Gaussians, whose standard deviations are $\sigma_i$, i.e. $\sigma=\sqrt{1/\sum_i\left(1/\sigma^2_i\right)}$.
+
+For additional details, you can take a look to the [Theoretical framework](#theoretical-framework) section.   
+
 ## Theoretical framework
 A detailed description of the theoretical framework for the GLM and the Bayesian setting can be found in this [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex). Here we outline some fundamental elements.
 
