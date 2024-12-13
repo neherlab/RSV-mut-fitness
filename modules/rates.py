@@ -187,6 +187,8 @@ class Rates:
 def add_predicted_count(train_df, count_df, clades):
     rate = Rates()
 
+    sites = train_df.nt_site.unique()
+
     rate.populate_rates(train_df)
     train_df["predicted_count"] = rate.predicted_counts_by_clade(train_df)
     tau = train_df.groupby("mut_type").apply(
@@ -201,6 +203,9 @@ def add_predicted_count(train_df, count_df, clades):
     for c in clades:
         count_clade = count_df.loc[count_df.clade == c, :].copy()
         count_clade_syn = count_clade.loc[count_clade.mut_class == "synonymous"].copy()
+        count_clade_syn = count_clade_syn.loc[
+            count_clade_syn.nt_site.isin(sites)
+        ]  # retain sites present in training data
 
         rate.predicted_counts(count_clade_syn)
         pred_count_clade = rate.predicted_counts_by_clade(count_clade)
