@@ -170,6 +170,27 @@ plots:
 
       You can click/shift-click on specific genes in the legend below the plot to only
       show mutations for that gene.
+  fit_corr_chart:
+    <<: *corr_template
+    title: correlation between novel and naive fitness estimates for different clusters of viral clades
+    section: correlation
+    legend: |
+      Interactive plot of the correlation between novel and naive fitness estimates made using different
+      subsets of the sequence data. Each point represents a fitness estimate for a
+      different amino-acid mutation. The Pearson correlation coefficient and the number
+      of mutations being correlated are shown in the upper left of the scatter plot.
+
+      You can mouse over points for details.
+
+      The scatter can be filtered according to two thresholds: minimum *predicted counts* and minimum *expected counts*.
+      The former are used to compute novel probabilistic fitness estimates, while the latter are used to compute naive fitness estimates.
+      For both thresholds, larger values yield more accurate estimates but for fewer amino acids. So move the slider to the left to show
+      estimates for more amino acids at lower confidence, and move it to the right to show estimates for fewer amino acids at higher confidence. 
+
+      This plot only shows the cluster of clades with the largest numbers of sequences.
+
+      You can click/shift-click on specific genes in the legend below the plot to only
+      show mutations for that gene.
   # subset_corr_chart:
   #   <<: *corr_template
   #   title: correlation of fitness estimates for different countries
