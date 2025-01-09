@@ -9,7 +9,7 @@ this_mat = snakemake.params.current_mat
 text = [
     f"## {plot_annotations['index_title']}",
     plot_annotations["index_abstract"],
-    f"Interactive plots for {this_mat} dataset:",
+    f"Interactive plots for [{this_mat}](https://github.com/jbloomlab/SARS2-mut-fitness/tree/main/results_gisaid_2024-04-24) dataset:",
 ]
 
 for section, section_title in plot_annotations["sections"].items():
