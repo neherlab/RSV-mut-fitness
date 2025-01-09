@@ -2,8 +2,10 @@
 
 ## Overview
 This repository computes an updated estimate of the fitness effects of mutations of the SARS-CoV-2 genome,
-based on the work presented in this [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex) by H.K. Haddox, 
-G. Angehrn, L. Sesta, C. Jennings-Shaffer, S. Temple, J.G. Galloway, W.S. DeWitt, [F.A. Matsen IV](https://matsen.fhcrc.org/), and [R.A. Neher](https://neherlab.org/).
+based on the work presented in this [paper](https://doi.org/10.1101/2025.01.07.631013) by H.K. Haddox, 
+G. Angehrn, L. Sesta, C. Jennings-Shaffer, S. Temple, J.G. Galloway, W.S. DeWitt, J.D. Bloom, [F.A. Matsen IV](https://matsen.fhcrc.org/), and [R.A. Neher](https://neherlab.org/).
+
+It builds upon and expand a previous approach to estimate viral fitness that can be found at [jbloomlab/SARS2-mut-fitness](https://github.com/jbloomlab/SARS2-mut-fitness/tree/main).
 
 The counts from the SARS-CoV-2 mutation-annotated tree provided by the [UShER developers](https://usher-wiki.readthedocs.io/)
 are used to accurately estimate the mutation rates according to:
@@ -16,13 +18,13 @@ Fitness effects are subsequently estimated by comparing the actual observed coun
 inferred rates, within a Bayesian probabilistic framework that also provides uncertainties.
 
 ## References
-- Details about the computational framework can be found in the related [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex).
+- Details about the computational framework can be found in the related [paper](https://doi.org/10.1101/2025.01.07.631013).
 - Data used as reference for RNA secondary structure are in [Lan et al](https://www.nature.com/articles/s41467-022-28603-2).
-- Evidence about influence of secondary structure on mutation rates were first presented in a paper by [Hensel](https://www.biorxiv.org/content/10.1101/2024.02.27.581995v1.abstract).
+- Evidences about influence of secondary structure on mutation rates were first presented in a paper by [Hensel](https://www.biorxiv.org/content/10.1101/2024.02.27.581995v1.abstract).
 - The original approach for estimating mutational fitness is presented in [Bloom & Neher](https://academic.oup.com/ve/article/9/2/vead055/7265011).
 
 ## Interactive plots
-Interactive plots for visualizing the results of the analysis can be found at [https://neherlab.github.io/SARS2-mut-fitness-v2/](https://neherlab.github.io/SARS2-mut-fitness-v2/).
+Interactive plots for visualizing the results of the analysis can be found at [https://neherlab.github.io/SARS2-mut-fitness-v2/](https://neherlab.github.io/SARS2-mut-fitness-v2/). These are an updated version of some of the plots originally presented at [jbloomlab.github.io/SARS2-mut-fitness](https://jbloomlab.github.io/SARS2-mut-fitness/).
 
 ## Computational pipeline
 It is possible to reproduce the fitness estimates by running the computational analysis defined in this GitHub repository.
@@ -66,7 +68,7 @@ Files produced by the pipeline are saved into the [./results](results) folder. T
 
 #### Nucleotide fitness
 The fitness effects of nucleotide mutations are reported in the `./results/_ntmut_fitness.csv` folder. In the dataframes therein, the output of the Bayesian probabilistic framework can be found, see section [Theoretical framework](#theoretical-framework) for additional details. Relevant entries are:
-* `f_mean`: the average with respect to the posterior of the fitness effect. It will provide the input for amino acid fitness effects.
+* `f_mean`: the average with respect to the posterior of the fitness effect. It provides the input for amino acid fitness effects.
 * `f_st_dev`: the posterior standard deviation, representing the uncertainty on the nucleotide fitness effect. It is also input for the amino acid estimates.
 
 #### Amino acid fitness
@@ -77,7 +79,7 @@ The results for amino acid fitness effects are found in the `./results/aamut_fit
 For additional details, you can take a look to the [Theoretical framework](#theoretical-framework) section.   
 
 ## Theoretical framework
-A detailed description of the theoretical framework for the GLM and the Bayesian setting can be found in this [paper](https://github.com/matsengrp/SARS2-synonymous-mut-rate-tex). Here we outline some fundamental elements.
+A detailed description of the theoretical framework for the GLM and the Bayesian setting can be found in this [paper](https://doi.org/10.1101/2025.01.07.631013). Here we outline some fundamental elements.
 
 ### GLM for predicted counts
 GLM's are inferred on two curated datasets containing counts for synonymous mutations. Genome sites are retained if:
