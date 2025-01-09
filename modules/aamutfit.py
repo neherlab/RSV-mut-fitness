@@ -122,7 +122,7 @@ def add_nsps(df, orf1ab_to_nsps_df):
 
 
 def naive_fitness(aa_counts, fitness_pseudocount=0.5):
-    aa_counts["naive_fitness"] = np.log(
+    aa_counts["naive_delta_fitness"] = np.log(
         (aa_counts["actual_count"] + fitness_pseudocount)
         / (aa_counts["expected_count"] + fitness_pseudocount)
     )
