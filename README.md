@@ -1,30 +1,25 @@
 # Fitness effects of nucleotide and amino acid mutations updated with novel estimates of neutral rates.
 
 ## Overview
-This repository computes an updated estimate of the fitness effects of mutations of the SARS-CoV-2 genome,
-based on the work presented in this [paper](https://doi.org/10.1101/2025.01.07.631013) by H.K. Haddox, 
+This repository computes an updated estimate of the fitness effects of mutations of the RSV genome,
+based on SARS-CoV-2 work presented in this [paper](https://doi.org/10.1101/2025.01.07.631013) by H.K. Haddox, 
 G. Angehrn, L. Sesta, C. Jennings-Shaffer, S. Temple, J.G. Galloway, W.S. DeWitt, J.D. Bloom, [F.A. Matsen IV](https://matsen.fhcrc.org/), and [R.A. Neher](https://neherlab.org/).
 
 It builds upon and expand a previous approach to estimate viral fitness that can be found at [jbloomlab/SARS2-mut-fitness](https://github.com/jbloomlab/SARS2-mut-fitness/tree/main).
 
-The counts from the SARS-CoV-2 mutation-annotated tree provided by the [UShER developers](https://usher-wiki.readthedocs.io/)
-are used to accurately estimate the mutation rates according to:
+The counts from the RSV mutation-annotated tree from Nextstrain (?) are used to accurately estimate the mutation rates according to:
 
 * A site's local nucleotide context.
-* The base pairing in RNA secondary structure.
-* The region of the genome the site belongs to.
+* The base pairing in RNA secondary structure. (from ?)
+* The region of the genome the site belongs to. (we will check this)
 
 Fitness effects are subsequently estimated by comparing the actual observed counts to the one predicted from the
 inferred rates, within a Bayesian probabilistic framework that also provides uncertainties.
 
 ## References
 - Details about the computational framework can be found in the related [paper](https://doi.org/10.1101/2025.01.07.631013).
-- Data used as reference for RNA secondary structure are in [Lan et al](https://www.nature.com/articles/s41467-022-28603-2).
-- Evidences about influence of secondary structure on mutation rates were first presented in a paper by [Hensel](https://www.biorxiv.org/content/10.1101/2024.02.27.581995v1.abstract).
+- Data used as reference for RNA secondary structure are in [input study].
 - The original approach for estimating mutational fitness is presented in [Bloom & Neher](https://academic.oup.com/ve/article/9/2/vead055/7265011).
-
-## Interactive plots
-Interactive plots for visualizing the results of the analysis can be found at [https://neherlab.github.io/SARS2-mut-fitness-v2/](https://neherlab.github.io/SARS2-mut-fitness-v2/). These are an updated version of some of the plots originally presented at [jbloomlab.github.io/SARS2-mut-fitness](https://jbloomlab.github.io/SARS2-mut-fitness/).
 
 ## Computational pipeline
 It is possible to reproduce the fitness estimates by running the computational analysis defined in this GitHub repository.
@@ -33,9 +28,9 @@ Firstly, a customized [conda](https://docs.conda.io/) environment needs to be bu
 
     conda env create -f environment.yml
 
-This will create a [conda](https://docs.conda.io/) environment called `SARS2-mut-fitness-v2`, that you need to activate:
+This will create a [conda](https://docs.conda.io/) environment called `RSV-mut-fitness-v2`, that you need to activate:
 
-    conda activate SARS2-mut-fitness-v2
+    conda activate RSV-mut-fitness-v2
 
 The pipeline is managed by [snakemake](https://snakemake.readthedocs.io/) through a [Snakefile](Snakefile), whose configuration is defined in [config.yaml](config.yaml). To run the pipeline use:
 
@@ -54,7 +49,7 @@ The pipeline runs downstream from two files fetched directly from the [jbloomlab
 
 The related links are defined in the [config.yaml](config.yaml) file and can be changed to any version of the reference UShER tree.
 
-The file containing the nucleotide pairing predictions from [Lan et al](https://www.nature.com/articles/s41467-022-28603-2) is located at [./data/lan_2022](data/lan_2022/).
+The file containing the nucleotide pairing predictions from [sec structure study] is located at [./data/rna_structure](data/rna_structure/).
 
 ### Configuration
 Ahead of the computation of mutational fitness effects, predicted and actual mutation counts can be aggregated by defining clusters of clades. This is defined by a dictionary `clade_cluster` in the [config.yaml](config.yaml) file, which can be customized.
